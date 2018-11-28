@@ -48,6 +48,7 @@ img_channels = 4        # We stack 4 frames.
 
 # Build Model.
 def build_model():
+    if (DEBUG): print ("Building the model.")
     # Build a sequential model.
     model = Sequential()
 
@@ -94,6 +95,8 @@ def build_model():
     if not os.path.isfile(loss_file_path):
         model.save_weights('model.h5')
 
+    if (DEBUG): print ("The model has been built.")
+
     return model
 
 
@@ -102,41 +105,43 @@ def train_network(model, game_state, observe=False):
     # Record the current time. 
     last_time = time.time()
 
-    # Store the previous observations in replay memory
+    # Store the previous observations in replay memory.
     D = load_obj("D")  # Load from file system.
-    # Get the first state by doing nothing
+
+    # Get the first state by doing nothing.
     do_nothing = np.zeros(ACTIONS)
-    do_nothing[0] =1 #0 => do nothing,
-                     #1=> jump
-    
-    x_t, r_0, terminal = game_state.get_state(do_nothing) # get next step after performing the action
-    
+    do_nothing[0] = 1 # 0 => do nothing 1=> jump.
 
-    s_t = np.stack((x_t, x_t, x_t, x_t), axis=2) # stack 4 images to create placeholder input
+    # Get next step after performing the action.
+    x_t, r_0, terminal = game_state.get_state(do_nothing)
     
-
-    
-    s_t = s_t.reshape(1, s_t.shape[0], s_t.shape[1], s_t.shape[2])  #1*20*40*4
+    # Stack 4 images to create placeholder input.
+    s_t = np.stack((x_t, x_t, x_t, x_t), axis=2) 
+    s_t = s_t.reshape(1, s_t.shape[0], s_t.shape[1], s_t.shape[2])  # 1 * 20 * 40 * 4
     
     initial_state = s_t 
 
     if observe :
-        OBSERVE = 999999999    #We keep observe, never train
+        # We keep observing the frames not train.
+        OBSERVE = 999999999             
         epsilon = FINAL_EPSILON
-        print ("Now we load weight")
+
+        if (DEBUG): print ("Now we load weight")
+
         model.load_weights("model.h5")
         adam = Adam(lr=LEARNING_RATE)
         model.compile(loss='mse',optimizer=adam)
-        print ("Weight load successfully")    
-    else:                       #We go to training mode
+        print ("Weight load successfully")
+    # We go to training mode.    
+    else:                               
         OBSERVE = OBSERVATION
         epsilon = load_obj("epsilon") 
         model.load_weights("model.h5")
         adam = Adam(lr=LEARNING_RATE)
         model.compile(loss='mse',optimizer=adam)
 
-    t = load_obj("time") # resume from the previous time step stored in file system
-    while (True): #endless running
+    t = load_obj("time") # Resume from the previous time step stored in file system
+    while (True): # Endless running
         
         loss = 0
         Q_sa = 0
