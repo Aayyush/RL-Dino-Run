@@ -15,9 +15,7 @@ class Game:
         chrome_options.add_argument("diasble-infobars")
         chrome_options.add_argument("--mute-audio")
 
-        self._driver = webdriver.Chrome(
-            executable_path=chrome_driver_path, chrome_options=chrome_options
-        )
+        self._driver = webdriver.Chrome(chrome_options=chrome_options)
         self._driver.set_window_position(x=-10, y=0)
         self._driver.get("chrome://dino")
         self._driver.execute_script("Runner.config.ACCELERATION=0")

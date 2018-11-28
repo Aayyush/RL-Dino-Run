@@ -1,3 +1,3 @@
-from DinoAgent import *
-from Game import *
-from GameState import *
+from .Game import Game
+from .GameState import GameState
+from .DinoAgent import DinoAgent

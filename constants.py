@@ -1,6 +1,6 @@
 # path variables
 game_url = "chrome://dino"
-chrome_driver_path = "../chromedriver"
+chrome_driver_path = "./chromedriver"
 loss_file_path = "./objects/loss_df.csv"
 actions_file_path = "./objects/actions_df.csv"
 q_value_file_path = "./objects/q_values.csv"

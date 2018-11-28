@@ -1,5 +1,10 @@
 from module_imports import *
-from Models import *
+
+from Game import Game
+
+# from Models import *
+
+# from Models import *
 
 # Build Model.
 def build_model():
@@ -228,9 +233,9 @@ def train_network(model, game_state, observe=False):
 
 def playGame():
     game = Game()
-    dino = DinoAgent(game)
-    game_state = Game_sate(dino, game)
-    # model = buildmodel()
+    # dino = DinoAgent.DinoAgent(game)
+    # game_state = GameState.GameState(dino, game)
+    # # model = buildmodel()
     # try:
     #     trainNetwork(model,game_state,observe=observe)
     # except StopIteration:
