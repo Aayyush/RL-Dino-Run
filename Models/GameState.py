@@ -16,11 +16,11 @@ class GameState:
         actions_df.loc[len(actions_df)] = actions[1]
         score = self._game.get_score()
         reward = 0.1
-        isGameOver = False
+        is_game_over = False
 
         if actions[1] == 1:  # 1 => index for jump and 0 for nothing
             self._game.jump()
-        image = grabScreen(self._game._driver)
+        image = grab_screen(self._game._driver)
         self._display.send(image)
 
         # Check if the agent has crashed and add reward.
