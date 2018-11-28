@@ -2,17 +2,17 @@ class DinoAgent:
 
     def __init__(self, game):
         self._game = game
-        self.jump()
+        self.jump()  # To start the game we need to jump once.
     
-    def isRunning():
-        return
+    def is_running(self):
+        return self._game.get_playing()
     
-    def isCrashed():
-        return 
+    def is_crashed(self):
+        return self._game.get_crashed()
     
-    def agentJump():
-        return
+    def jump(self):
+        return self._game.press_up()
     
-    def agentDuck():
-        return
+    def duck(self):
+        return self._game.press_down()
     
