@@ -1,9 +1,32 @@
-from constants import *
-import pickle
-import numpy as np
-import cv2
-from PIL import Image
+# from constants import *
+# import pickle
+# import numpy as np
+# import cv2
+# from PIL import Image
 
+
+from module_imports import *
+
+loss_df = (
+    pd.read_csv(loss_file_path)
+    if os.path.isfile(loss_file_path)
+    else pd.DataFrame(columns=["loss"])
+)
+scores_df = (
+    pd.read_csv(scores_file_path)
+    if os.path.isfile(loss_file_path)
+    else pd.DataFrame(columns=["scores"])
+)
+actions_df = (
+    pd.read_csv(actions_file_path)
+    if os.path.isfile(actions_file_path)
+    else pd.DataFrame(columns=["actions"])
+)
+q_values_df = (
+    pd.read_csv(actions_file_path)
+    if os.path.isfile(q_value_file_path)
+    else pd.DataFrame(columns=["qvalues"])
+)
 
 class GameState:
     def __init__(self, agent, game):
@@ -16,31 +39,21 @@ class GameState:
         actions_df.loc[len(actions_df)] = actions[1]
         score = self._game.get_score()
         reward = 0.1
-        is_game_over = False
+        isGameOver = False
 
         if actions[1] == 1:  # 1 => index for jump and 0 for nothing
-            self._game.jump()
+            self._game.press_up()
         image = grab_screen(self._game._driver)
         self._display.send(image)
 
         # Check if the agent has crashed and add reward.
         if self._agent.is_crashed():
             scores_df.loc[len(scores_df)] = score
-            self._game.restart()
+            self._game.restart_game()
             reward = -1
             isGameOver = True
 
         return image, reward, isGameOver
-
-
-def save_object(obj, name):
-    with open("objects/" + name + ".pkl", "wb") as f:  # dump files into objects folder
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-
-
-def load_object(name):
-    with open("objects/" + name + ".pkl", "rb") as f:
-        return pickle.load(f)
 
 
 def grab_screen(_driver):

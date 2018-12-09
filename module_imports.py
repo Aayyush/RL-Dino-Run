@@ -30,3 +30,6 @@ import pickle
 from io import BytesIO
 import base64
 import json
+from Game import Game
+from GameState import GameState
+from DinoAgent import DinoAgent
