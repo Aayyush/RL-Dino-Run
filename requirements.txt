@@ -6,7 +6,7 @@ black==18.9b0
 Click==7.0
 decorator==4.3.0
 h5py==2.8.0
-ipython==7.1.1
+ipython==7.16.3
 ipython-genutils==0.2.0
 jedi==0.13.1
 Keras==2.2.4
